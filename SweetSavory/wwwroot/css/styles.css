@@ -1,0 +1,18 @@
+.form-control {
+  margin-bottom: 20px;
+}
+
+.card {
+  margin: 0 auto; 
+  float: none; 
+  margin-bottom: 10px; 
+  width: 500px;
+  text-align: center;
+  padding: 30px;
+}
+
+span:before{
+  content:" "; 
+  display:inline-block; 
+  width:7px;
+}
