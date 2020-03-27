@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace SweetSavory.Controllers
 {
-  public class FlavorsController : Controller
+  public class TreatsController : Controller
   {
     private readonly SweetSavoryContext _db;
     private readonly UserManager<ApplicationUser> _userManager; 
 
-    public FlavorsController(UserManager<ApplicationUser> userManager, SweetSavoryContext db)
+    public TreatsController(UserManager<ApplicationUser> userManager, SweetSavoryContext db)
     {
       _userManager = userManager;
       _db = db;
@@ -24,7 +24,7 @@ namespace SweetSavory.Controllers
 
     public ActionResult Index()
     {
-      return View(_db.Flavors.ToList());
+      return View(_db.Treats.ToList());
     }
   }
-}    
+}   

@@ -1,0 +1,22 @@
+@{
+  Layout = "_Layout";
+}
+
+@using SweetSavory.Models;
+@model List<SweetSavory.Models.Treat>;
+
+<h1>Treats</h1>
+<hr>
+<br>
+@if (@Model.Count == 0)
+{
+  <h4>No treats have been added yet!</h4>
+} 
+
+@foreach (Treat treat in Model)
+{
+  <li>@Html.ActionLink($"{treat.TreatName}", "Details", new { id = treat.TreatId})</li>
+}
+<br>
+<hr>
+@Html.ActionLink("Add New Treat", "Create", "Treats", null, new { @class = "btn btn-outline-info"})
