@@ -23,7 +23,7 @@
             </li>
           </ul>
         </div>
-         @if(User.Identity.IsAuthenticated)
+        @if(User.Identity.IsAuthenticated)
         {
           <p>Logged in as <strong>@User.Identity.Name</strong></p>
           @using (Html.BeginForm("LogOff", "Account"))

@@ -26,5 +26,28 @@ namespace SweetSavory.Controllers
     {
       return View(_db.Flavors.ToList());
     }
+
+    [Authorize]
+    public async Task<ActionResult> Create(int id)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).FirstOrDefault(flavor => flavor.FlavorId == id);
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+      ViewBag.Treats = _db.Treats.ToList();
+      return View(thisFlavors);
+    }
+
+    [HttpPost]
+    public ActionResult Create(Flavor flavor, int TreatId)
+    {
+      _db.Flavors.Add(flavor);
+      if (TreatId != 0)
+      {
+        _db.TreatFlavors.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }    

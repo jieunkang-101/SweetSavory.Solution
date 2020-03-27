@@ -9,16 +9,17 @@
 <br>
 <br>
 <div class="card">
-  <h3 class="text-center">Add a New Treat</h3>
-  <hr>
-  @using (Html.BeginForm())
-  {
-    @Html.Label("Treat Name:")
-    @Html.TextBoxFor(model => model.TreatName, new {@class = "form-control"})
-    @Html.Label("Flavor:")
-    @Html.DropDownList("FlavorId")
-    <br>
-    <br>
-    <input type="submit" value="Add Treat" class="btn btn-outline-info" />
-  }
+<h3 class="text-center">Add a New Treat</h3>
+<hr>
+@using (Html.BeginForm())
+{
+  @Html.Label("Treat Name:")
+  @Html.TextBoxFor(Model => Model.TreatName, new {@class = "form-control"})
+  @Html.Label("Flavor:")
+  @Html.DropDownList("FlavorId")
+  <br>
+  <br>
+  <input type="submit" value="Add Treat" class="btn btn-outline-info" />
+}
 </div>
+
