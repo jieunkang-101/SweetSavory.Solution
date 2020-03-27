@@ -51,7 +51,29 @@ Follow the installation instructions below to installing **MySQL Community Serve
 $ mysql -uroot -pYOURPASSWORD
 mysql> CREATE DATABASE `jieun_kang`;
 mysql> USE `jieun_kang`; 
-
+mysql> CREATE TABLE `Flavors` (
+    `FlavorId` int(11) NOT NULL AUTO_INCREMENT,
+    `FlavorName` longtext,
+    `UserId` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`FlavorId`),
+    KEY `IX_Flavors_UserId` (`UserId`),
+    CONSTRAINT `FK_Flavors_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE RESTRICT);
+mysql> CREATE TABLE `Treats` (
+    `TreatId` int(11) NOT NULL AUTO_INCREMENT,
+    `TreatName` longtext,
+    `UserId` varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`TreatId`),
+    KEY `IX_Treats_UserId` (`UserId`),
+    CONSTRAINT `FK_Treats_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE RESTRICT);
+mysql> CREATE TABLE `TreatFlavors` (
+    `TreatFlavorId` int(11) NOT NULL AUTO_INCREMENT,
+    `TreatId` int(11) NOT NULL,
+    `FlavorId` int(11) NOT NULL,
+    PRIMARY KEY (`TreatFlavorId`),
+    KEY `IX_TreatFlavors_FlavorId` (`FlavorId`),
+    KEY `IX_TreatFlavors_TreatId` (`TreatId`),
+    CONSTRAINT `FK_TreatFlavors_Flavors_FlavorId` FOREIGN KEY (`FlavorId`) REFERENCES `flavors` (`FlavorId`) ON DELETE CASCADE,
+    CONSTRAINT `FK_TreatFlavors_Treats_TreatId` FOREIGN KEY (`TreatId`) REFERENCES `treats` (`TreatId`) ON DELETE CASCADE);
 ```
 
 #### Import from the Cloned Repository
