@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pierre's Sweet and Savory Treats</title>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="~/css/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <p>@Html.ActionLink("Home", "Index", "Home", null, new { @class ="nav-link"})</p>
+
+            </li>
+            <li class="nav-item">
+              <p>@Html.ActionLink("Flavors", "Index", "Flavors", null, new { @class ="nav-link"})</p> 
+            </li>
+            <li class="nav-item">
+              <p>@Html.ActionLink("Treats", "Index", "Treats",null, new { @class ="nav-link"})</p>
+            </li>
+          </ul>
+        </div>
+      </nav>  
+      <div class="jumbotron">
+        <h1>Pierre's Sweet and Savory Treats</h1>
+      </div>
+      @RenderBody()
+    </div>
+  </body>
+</html>

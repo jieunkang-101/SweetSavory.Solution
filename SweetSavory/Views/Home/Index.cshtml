@@ -1,0 +1,32 @@
+@{
+  Layout = "_Layout";
+}
+<br>
+<h1>Welcome</h1>
+<br>
+<hr>
+<br>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Flavors</h3>
+        <ul class="card-text">
+         
+        </ul>
+        <p>@Html.ActionLink("See All Flavors", "Index", "Flavors", null, new { @class = "btn btn-dark"})</p> 
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Treats</h3>
+        <ul class="card-text">
+        
+        </ul>
+        <p>@Html.ActionLink("See All Treats", "Index", "Treats", null, new { @class = "btn btn-dark"})</p> 
+      </div>
+    </div>
+  </div>
+</div>
