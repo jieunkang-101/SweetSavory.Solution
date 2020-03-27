@@ -23,6 +23,18 @@
             </li>
           </ul>
         </div>
+         @if(User.Identity.IsAuthenticated)
+        {
+          <p>Logged in as <strong>@User.Identity.Name</strong></p>
+          @using (Html.BeginForm("LogOff", "Account"))
+          {
+            <input type="submit" class="btn btn-outline-danger" value="Log out" />
+          }
+        }
+        else
+        {
+          @Html.ActionLink("Log in", "Login", "Account", null, new { @class = "btn btn-success"})
+        }
       </nav>  
       <div class="jumbotron">
         <h1>Pierre's Sweet and Savory Treats</h1>
