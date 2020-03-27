@@ -7,6 +7,7 @@
 <br>
 <h2>Authentication with Identity</h2>
 <hr />
+<br>
 @if (User.Identity.IsAuthenticated)
 {
   <p>Hello, @User.Identity.Name!</p>
@@ -17,7 +18,7 @@
 }
 else
 {
-  @Html.ActionLink("Register", "Register", null, new { @class = "btn btn-outline-danger"})
-  @Html.ActionLink("Log in", "Login", null, new { @class = "btn btn-outline-danger"})
+  @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-outline-danger"})
+  @Html.ActionLink("Log in", "Login", "Account", null, new { @class = "btn btn-outline-danger"})
 }
 

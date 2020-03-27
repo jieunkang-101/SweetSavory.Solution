@@ -1,0 +1,33 @@
+@{
+  Layout = "_Layout";
+}
+
+@using SweetSavory.Models
+@using System.Security.Claims
+@model SweetSavory.Models.Treat
+
+<br>
+<br>
+@if(User.Identity.IsAuthenticated)
+{
+  <div class="card">
+    <h3 class="text-center">Update this Treat</h3>
+    <hr>
+    @using (Html.BeginForm())
+    {
+      @Html.HiddenFor(model => model.TreatId)
+
+      @Html.Label("Treat Name:")
+      @Html.TextBoxFor(Model => Model.TreatName, new {@class = "form-control"})
+      @Html.Label("Select Flavor:  ")
+      @Html.DropDownList("FlavorId")
+      <br>
+      <br>
+      <input type="submit" value="Save" class="btn btn-outline-info" />
+    }
+  </div>
+}
+else
+{
+  <h4>You are not authorized to Add Flavor.</h4>
+}  

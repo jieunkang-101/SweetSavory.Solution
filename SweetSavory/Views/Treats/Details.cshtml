@@ -33,3 +33,5 @@ else
 <br>
 <hr>
 @Html.ActionLink("Add New Flavor", "AddFlavor", new { id = Model.TreatId }, new { @class = "btn btn-outline-info"})
+@Html.ActionLink("Edit this Treat", "Edit", new { id = Model.TreatId }, new { @class = "btn btn-outline-info"})
+@Html.ActionLink("Delete this Treat", "Delete", new { id = Model.TreatId }, new { @class = "btn btn-outline-info"})
