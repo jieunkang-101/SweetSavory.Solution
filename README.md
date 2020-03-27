@@ -1,4 +1,4 @@
-# :lollipop: Sweet and Savory
+# :lollipop: Pierre's Sweet and Savory Treats
 
 #### Advanced Databases and Authentication Independence Project, 27 March 2020
  
