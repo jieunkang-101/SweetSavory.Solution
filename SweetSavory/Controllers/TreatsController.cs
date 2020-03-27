@@ -32,17 +32,20 @@ namespace SweetSavory.Controllers
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
-      var thisTreats = _db.Treats
+      var thisTreat = _db.Treats
                       .Where(entry => entry.User.Id == currentUser.Id)
                       .FirstOrDefault(treat => treat.TreatId == id);
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       ViewBag.Flavors = _db.Flavors.ToList();
-      return View(thisTreats);
+      return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult Create(Treat treat, int FlavorId)
+    public async Task<ActionResult> Create(Treat treat, int FlavorId)
     {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      treat.User = currentUser;
       _db.Treats.Add(treat);
       if (FlavorId != 0)
       {
@@ -62,9 +65,17 @@ namespace SweetSavory.Controllers
     }
 
     [Authorize]
-    public ActionResult AddFlavor(int id)
+    public async Task<ActionResult> AddFlavor(int id)
     {
-      var thisTreat = _db.Treats.FirstOrDefault(treats => treats.TreatId == id);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisTreat = _db.Treats
+                      .Where(entry => entry.User.Id == currentUser.Id)
+                      .FirstOrDefault(treat => treat.TreatId == id);
+      if (thisTreat == null)
+      {
+        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+      }                
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       return View(thisTreat);
     }

@@ -6,15 +6,22 @@
 
 <br>
 <br>
-<div class="card">
-  <h3>Add a flavor to this treat: @Html.DisplayFor(model => model.TreatName)</h3>
-  <hr>
-  @using (Html.BeginForm())
-  {
-    @Html.HiddenFor(model => model.TreatId)
+@if(User.Identity.IsAuthenticated)
+{
+  <div class="card">
+    <h3>Add a flavor to this treat: @Html.DisplayFor(model => model.TreatName)</h3>
+    <hr>
+    @using (Html.BeginForm())
+    {
+      @Html.HiddenFor(model => model.TreatId)
 
-    <h5>@Html.Label("Select Flavor:")  @Html.DropDownList("FlavorId")</h5>
-    <br>
-    <input type="submit" value="Save" class="btn btn-outline-info" />
-  }
-</div>  
+      <h5>@Html.Label("Select Flavor:")  @Html.DropDownList("FlavorId")</h5>
+      <br>
+      <input type="submit" value="Save" class="btn btn-outline-info" />
+    }
+  </div>  
+}
+else 
+{
+  <h4>You are not authorized to Add Flavor.</h4>
+}  
