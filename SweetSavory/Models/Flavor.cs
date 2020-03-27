@@ -4,6 +4,15 @@ namespace SweetSavory.Models
 {
   public class Flavor
   {
+    public Flavor()
+    {
+      this.Treat = new HashSet<TreatFlavor>();
+    }
 
+    public int FlavorId { get; set; }
+    public string FlavorName { get; set; }
+    public ApplicationUser User { get; set; }
+
+    public ICollection<TreatFlavor> Treat { get; set; }
   }  
 }  
