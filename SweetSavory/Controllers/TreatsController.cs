@@ -32,7 +32,9 @@ namespace SweetSavory.Controllers
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
-      var thisTreats = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).FirstOrDefault(treat => treat.TreatId == id);
+      var thisTreats = _db.Treats
+                      .Where(entry => entry.User.Id == currentUser.Id)
+                      .FirstOrDefault(treat => treat.TreatId == id);
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       ViewBag.Flavors = _db.Flavors.ToList();
       return View(thisTreats);
@@ -48,6 +50,16 @@ namespace SweetSavory.Controllers
       }
       _db.SaveChanges();
       return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      var thisTreat = _db.Treats
+                      .Include(treat => treat.Flavors)
+                      .ThenInclude(join => join.Flavor)
+                      .FirstOrDefault(treat => treat.TreatId == id);
+      return View(thisTreat);
+
     }
   }
 }   

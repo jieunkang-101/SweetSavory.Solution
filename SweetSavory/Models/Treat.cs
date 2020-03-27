@@ -6,13 +6,13 @@ namespace SweetSavory.Models
   {
     public Treat()
     {
-      this.Flavor = new HashSet<TreatFlavor>();
+      this.Flavors = new HashSet<TreatFlavor>();
     }
 
     public int TreatId { get; set; }
     public string TreatName { get; set; }
     public ApplicationUser User { get; set; }
 
-    public ICollection<TreatFlavor> Flavor { get; set; }
+    public ICollection<TreatFlavor> Flavors { get; set; }
   }  
 }
