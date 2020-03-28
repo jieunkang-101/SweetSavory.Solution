@@ -2,10 +2,13 @@
   Layout = "_Layout";
 }
 
+@using SweetSavory.Models
+@model List<SweetSavory.Models.Treat>
+
 <div class="jumbotron">
   <h1>Pierre's Sweet and Savory Treats</h1>
 </div>
-<h1>Welcome</h1>
+<h2>❝w e l c o m e❞</h2>
 <hr>
 <br>
 <div class="row">
@@ -14,9 +17,13 @@
       <div class="card-body">
         <h3 class="card-title">Flavors</h3>
         <ul class="card-text">
-         
+          @* @foreach(var join in Model.Flavors)
+          {
+            <li>@join.Flavor.FlavorName</li>
+          }   *@
         </ul>
-        <p>@Html.ActionLink("See All Flavors", "Index", "Flavors", null, new { @class = "btn btn-outline-info"})</p> 
+        @Html.ActionLink("See All Flavors", "Index", "Flavors", null, new { @class = "btn btn-outline-info"})
+        @Html.ActionLink("Add New Flavor", "Create", "Flavors", null, new { @class = "btn btn-outline-info"})
       </div>
     </div>
   </div>
@@ -25,9 +32,13 @@
       <div class="card-body">
         <h3 class="card-title">Treats</h3>
         <ul class="card-text">
-        
+          @foreach (Treat treat in Model)
+          {
+            <li>@treat.TreatName</li>
+          }
         </ul>
-        <p>@Html.ActionLink("See All Treats", "Index", "Treats", null, new { @class = "btn btn-outline-info"})</p> 
+        @Html.ActionLink("See All Treats", "Index", "Treats", null, new { @class = "btn btn-outline-info"})
+        @Html.ActionLink("Add New Treat", "Create", "Treats", null, new { @class = "btn btn-outline-info"})
       </div>
     </div>
   </div>

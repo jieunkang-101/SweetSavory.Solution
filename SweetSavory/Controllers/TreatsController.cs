@@ -145,18 +145,7 @@ namespace SweetSavory.Controllers
 
     [Authorize, HttpPost]
     public ActionResult DeleteFlavor(int joinId)
-    {
-    // public async Task<ActionResult> DeleteFlavor(int joinId)
-    // {
-      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // var currentUser = await _userManager.FindByIdAsync(userId);
-      // var joinEntry = _db.TreatFlavors
-      //                 .Where(entry => entry.User.Id == currentUser.Id)
-      //                 .FirstOrDefault(entry => entry.TreatFlavorId == joinId);
-      // if (joinEntry == null)
-      // {
-      //   return RedirectToAction("Details"); //need to alert to not authorized
-      // }    
+    {  
       var joinEntry = _db.TreatFlavors.FirstOrDefault(entry => entry.TreatFlavorId == joinId);
       _db.TreatFlavors.Remove(joinEntry);
       _db.SaveChanges();
