@@ -143,10 +143,11 @@ namespace SweetSavory.Controllers
       return RedirectToAction("Index");
     }
 
-    //[Authorize]
-    [HttpPost]
+    [Authorize, HttpPost]
     public ActionResult DeleteFlavor(int joinId)
     {
+    // public async Task<ActionResult> DeleteFlavor(int joinId)
+    // {
       // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       // var currentUser = await _userManager.FindByIdAsync(userId);
       // var joinEntry = _db.TreatFlavors
@@ -154,7 +155,7 @@ namespace SweetSavory.Controllers
       //                 .FirstOrDefault(entry => entry.TreatFlavorId == joinId);
       // if (joinEntry == null)
       // {
-      //   return RedirectToAction("Details", new { id = joinId }); //need to alert to not authorized
+      //   return RedirectToAction("Details"); //need to alert to not authorized
       // }    
       var joinEntry = _db.TreatFlavors.FirstOrDefault(entry => entry.TreatFlavorId == joinId);
       _db.TreatFlavors.Remove(joinEntry);

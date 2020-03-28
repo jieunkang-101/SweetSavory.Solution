@@ -1,0 +1,37 @@
+@{
+  Layout = "_Layout";
+}
+
+@using SweetSavory.Models
+@using System.Security.Claims
+@model SweetSavory.Models.Flavor
+
+<br>
+<h2>Flavor Details</h2>
+<hr />
+<br>
+@if(@Model.Treats.Count == 0)
+{
+  <h5>This flavor does not belong to any treats</h5>
+}
+else
+{
+  <h4>Treats that belong to @Html.DisplayFor(model => model.FlavorName):</h4>
+  <ul>
+  @foreach(var join in Model.Treats)
+  {
+    <li>@join.Treat.TreatName</li>
+    @using (Html.BeginForm("DeleteTreat", "Flavors"))
+    {
+      @Html.Hidden("joinId", @join.TreatFlavorId) 
+      <input type="submit" value="Delete this Treat", class="btn btn-outline-info btn-sm" />
+    }
+    <br>
+  }
+  </ul>
+}
+<br>
+<hr>
+@Html.ActionLink("Add New Treat", "AddTreat", new { id = Model.FlavorId }, new { @class = "btn btn-outline-info"})
+@Html.ActionLink("Edit this Flavor", "Edit", new { id = Model.FlavorId }, new { @class = "btn btn-outline-info"})
+@Html.ActionLink("Delete this Flavor", "Delete", new { id = Model.FlavorId }, new { @class = "btn btn-outline-info"})
