@@ -35,8 +35,6 @@ namespace SweetSavory.Controllers
       var thisFlavors = _db.Flavors
                         .Where(entry => entry.User.Id == currentUser.Id)
                         .FirstOrDefault(flavor => flavor.FlavorId == id);
-      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
-      ViewBag.Treats = _db.Treats.ToList();
       return View(thisFlavors);
     }
 
@@ -64,5 +62,92 @@ namespace SweetSavory.Controllers
       return View(thisFlavor);
     }
 
+    [Authorize]
+    public async Task<ActionResult> AddTreat(int id)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisFlavor = _db.Flavors
+                      .Where(entry => entry.User.Id == currentUser.Id)
+                      .FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      if (thisFlavor == null)
+      {
+        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+      }                
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+      ViewBag.Treats = _db.Treats.ToList();
+      return View(thisFlavor);
+    }
+
+    [HttpPost]
+    public ActionResult AddTreat(Flavor flavor, int TreatId, int id)
+    {
+      if (TreatId != 0)
+      {
+        _db.TreatFlavors.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+      }
+      _db.SaveChanges();
+      return RedirectToAction("details", new { id = id});
+    }
+
+    [Authorize]
+    public async Task<ActionResult> Edit(int id)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisFlavor = _db.Flavors
+                      .Where(entry => entry.User.Id == currentUser.Id)
+                      .FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      if (thisFlavor == null)
+      {
+        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+      }                
+      return View(thisFlavor);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Flavor flavor, int TreatId, int id)
+    {
+      if (TreatId != 0)
+      {
+        _db.TreatFlavors.Add(new TreatFlavor() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+      }
+      _db.Entry(flavor).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("details", new { id = id});
+    }
+
+    [Authorize]
+    public async Task<ActionResult> Delete(int id)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisFlavor = _db.Flavors
+                      .Where(entry => entry.User.Id == currentUser.Id)
+                      .FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      if (thisFlavor == null)
+      {
+        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+      }                
+      return View(thisFlavor);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(Flavor => Flavor.FlavorId == id);
+      _db.Flavors.Remove(thisFlavor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [Authorize, HttpPost]
+    public ActionResult DeleteTreat(int joinId)
+    {  
+      var joinEntry = _db.TreatFlavors.FirstOrDefault(entry => entry.TreatFlavorId == joinId);
+      _db.TreatFlavors.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }    

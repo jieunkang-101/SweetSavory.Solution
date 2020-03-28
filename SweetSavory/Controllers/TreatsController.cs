@@ -81,14 +81,14 @@ namespace SweetSavory.Controllers
     }
 
     [HttpPost]
-    public ActionResult AddFlavor(Treat treat, int FlavorId)
+    public ActionResult AddFlavor(Treat treat, int FlavorId, int id)
     {
       if (FlavorId != 0)
       {
         _db.TreatFlavors.Add(new TreatFlavor() { FlavorId = FlavorId, TreatId = treat.TreatId });
       }
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("details", new { id = id});
     }
 
     [Authorize]
@@ -108,7 +108,7 @@ namespace SweetSavory.Controllers
     }
 
     [HttpPost]
-    public ActionResult Edit(Treat treat, int FlavorId)
+    public ActionResult Edit(Treat treat, int FlavorId, int id)
     {
       if (FlavorId != 0)
       {
@@ -116,7 +116,7 @@ namespace SweetSavory.Controllers
       }
       _db.Entry(treat).State = EntityState.Modified;
       _db.SaveChanges();
-      return RedirectToAction("Index");
+      return RedirectToAction("details", new { id = id});
     }
 
     [Authorize]
