@@ -28,16 +28,11 @@ namespace SweetSavory.Controllers
     }
 
     [Authorize]
-    public async Task<ActionResult> Create(int id)
+    public ActionResult Create()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var thisTreat = _db.Treats
-                      .Where(entry => entry.User.Id == currentUser.Id)
-                      .FirstOrDefault(treat => treat.TreatId == id);
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       ViewBag.Flavors = _db.Flavors.ToList();
-      return View(thisTreat);
+      return View();
     }
 
     [HttpPost]
@@ -55,12 +50,15 @@ namespace SweetSavory.Controllers
       return RedirectToAction("Index");
     }
 
+    // In the Details route we need to find the user associated with the item so that in the view, we can show the edit, delete or add category links if the item "belongs" to that user.
     public ActionResult Details(int id)
     {
       var thisTreat = _db.Treats
-                      .Include(treat => treat.Flavors)
-                      .ThenInclude(join => join.Flavor)
-                      .FirstOrDefault(treat => treat.TreatId == id);
+          .Include(treat => treat.Flavors)
+          .ThenInclude(join => join.Flavor)
+          .FirstOrDefault(treat => treat.TreatId == id);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;    
+      ViewBag.IsCurrentUser = userId == thisTreat.User.Id;
       return View(thisTreat);
     }
 
@@ -70,11 +68,11 @@ namespace SweetSavory.Controllers
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       var thisTreat = _db.Treats
-                      .Where(entry => entry.User.Id == currentUser.Id)
-                      .FirstOrDefault(treat => treat.TreatId == id);
+          .Where(entry => entry.User.Id == currentUser.Id)
+          .FirstOrDefault(treat => treat.TreatId == id);
       if (thisTreat == null)
       {
-        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+        return RedirectToAction("Details", new { id = id}); 
       }                
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       return View(thisTreat);
@@ -97,18 +95,18 @@ namespace SweetSavory.Controllers
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       var thisTreat = _db.Treats
-                      .Where(entry => entry.User.Id == currentUser.Id)
-                      .FirstOrDefault(treat => treat.TreatId == id);
+          .Where(entry => entry.User.Id == currentUser.Id)
+          .FirstOrDefault(treat => treat.TreatId == id);
       if (thisTreat == null)
       {
-        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+        return RedirectToAction("Details", new { id = id}); 
       }    
       ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "FlavorName");
       return View(thisTreat);
     }
 
     [HttpPost]
-    public ActionResult Edit(Treat treat, int FlavorId, int id)
+    public ActionResult Edit(Treat treat, int FlavorId)
     {
       if (FlavorId != 0)
       {
@@ -116,7 +114,7 @@ namespace SweetSavory.Controllers
       }
       _db.Entry(treat).State = EntityState.Modified;
       _db.SaveChanges();
-      return RedirectToAction("details", new { id = id});
+      return RedirectToAction("Index");
     }
 
     [Authorize]
@@ -125,11 +123,11 @@ namespace SweetSavory.Controllers
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       var thisTreat = _db.Treats
-                      .Where(entry => entry.User.Id == currentUser.Id)
-                      .FirstOrDefault(treat => treat.TreatId == id);
+          .Where(entry => entry.User.Id == currentUser.Id)
+          .FirstOrDefault(treat => treat.TreatId == id);
       if (thisTreat == null)
       {
-        return RedirectToAction("Details", new { id = id}); //need to alert to not authorized
+        return RedirectToAction("Details", new { id = id});
       }    
       return View(thisTreat);
     }
