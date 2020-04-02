@@ -51,14 +51,15 @@ namespace SweetSavory.Controllers
     }
 
     // In the Details route we need to find the user associated with the item so that in the view, we can show the edit, delete or add category links if the item "belongs" to that user.
-    public ActionResult Details(int id)
+    public async Task<ActionResult> Details(int id)
     {
       var thisTreat = _db.Treats
           .Include(treat => treat.Flavors)
           .ThenInclude(join => join.Flavor)
           .FirstOrDefault(treat => treat.TreatId == id);
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;    
-      ViewBag.IsCurrentUser = userId == thisTreat.User.Id;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      ViewBag.IsCurrentUser = currentUser.Id == thisTreat.User.Id;
       return View(thisTreat);
     }
 
@@ -141,7 +142,7 @@ namespace SweetSavory.Controllers
       return RedirectToAction("Index");
     }
 
-    [Authorize, HttpPost]
+    [HttpPost]
     public ActionResult DeleteFlavor(int joinId)
     {  
       var joinEntry = _db.TreatFlavors.FirstOrDefault(entry => entry.TreatFlavorId == joinId);
