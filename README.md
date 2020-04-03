@@ -33,7 +33,8 @@ Follow the installation instructions below to installing **MySQL Community Serve
 
 1. _Download from the [MySQL Community Server Page](https://dev.mysql.com/downloads/file/?id=484914)_ (Use the No thanks, just start my download link.)
 2. _Download from the [MySQL Workbench Page](https://dev.mysql.com/downloads/file/?id=484391)_ (Use the No thanks, just start my download link.)
-3. Verity MySQL installation by opening terminal and entering the command: <br>`$ mysql -uroot -pYOURPASSWORD`
+3. Configure ternminal by opening terminal and entering the command: <br>`echo 'export PATH="/usr/local/mysql/bin:$PATH"' >> ~/.bash_profile`<br>`source ~/.bash_profile` 
+4. Verity MySQL installation <br>`$ mysql -uroot -pYOURPASSWORD`
 
 #### Windows 10
 
